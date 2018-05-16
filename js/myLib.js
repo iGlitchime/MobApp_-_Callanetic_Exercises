@@ -149,22 +149,3 @@ function fillContent(el,str,img){
 		el.innerHTML = str;
 	}
 }
-
-/*ternar operator
-	(if) ? true : false;
-	(условие) ? возвращает если правда : возвращает если ложь;
-*/
-
-/*
-//определение языка
-var lang = navigator.language.substr(0,2);
-var flag = 0;
-for(var keys in translate.langs){
-	if(keys==lang){
-		flag++;
-	}
-} 
-if(flag==0){
-	lang = "en";
-}
-*/

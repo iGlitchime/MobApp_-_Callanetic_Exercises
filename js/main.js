@@ -1,4 +1,4 @@
-"use strict"; /* ключает новый синтаксис */
+"use strict";
 
 var datePicker;
 var LN = "en";
@@ -23,8 +23,6 @@ function statisticBlock(){
 
 
 function ready() {
-
-
     StorageTest();
     swiperObj.init();
     snd_list_page = new Sound("snd/list_page.mp3");
@@ -35,13 +33,13 @@ function ready() {
     JSAPI.keepScreenOn();
     switches.test();
 
-    var soundSW = document.getElementById("soundSW"); //забираем данные со страницы
-    new Tap(soundSW); //функция-конструктор, вешает TAP на soundSW
+    var soundSW = document.getElementById("soundSW");
+    new Tap(soundSW);
 
     soundSW.addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
-        switches.call(this); // вешаем действие на клик
+        e.preventDefault();
+        e.stopPropagation();
+        switches.call(this);
     }, false);
     soundSW.addEventListener('swipe', function(e){
         e.preventDefault();
@@ -71,29 +69,26 @@ function ready() {
     }, false);
 
     setTimeout(function(){
-        page.open("second"); //открываем страницу 2
+        page.open("second");
         Segments.openProgr(document.getElementById("Trainings_0"));
     }, 2500);
     var pages = document.getElementsByClassName("page");
     
-    //перепроверка даты и ЛокСтора при изменении даты пока аппа в трее
     window.addEventListener("appMaximizeEvent",function(e){
         e.preventDefault();
         e.stopPropagation();
         StorageTest();
     },false);
     
-    //настройка анимашек переключения страниц
     for(var i=0;i<pages.length;i++){
-        pages[i].addEventListener('webkitAnimationStart', function(e){  //старт анимации
+        pages[i].addEventListener('webkitAnimationStart', function(e){
             e.preventDefault();
             e.stopPropagation();
         },false);
 
-        pages[i].addEventListener('webkitAnimationEnd', function(e){ //завершение анимации и действия после
+        pages[i].addEventListener('webkitAnimationEnd', function(e){
             e.preventDefault();
             e.stopPropagation();
-            // действия после анимации
             if((this.classList.contains("moveLeft"))||(this.classList.contains("moveRight"))){
                 this.style.visibility = "hidden";
                 this.classList.remove("hold");
@@ -109,8 +104,8 @@ function ready() {
         }, false);
     }
     new Tap("Statistics_0").addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         showStatisticsInfo.loadLastTime(e.detail.cTarget);
         statisticBlock();
         snd_list_page.play();
@@ -118,46 +113,43 @@ function ready() {
     }, false);
     
     new Tap("Trainings_0").addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         snd_list_page.play();
         Segments.openProgr(this);
     }, false);
     
     new Tap("goSettings").addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         snd_list_page.play();
-        page.open("seventh");  // вешаем переход на страницу списка советов по ребенку
+        page.open("seventh");
     }, false);
     
-    //настройка всех кнопок BACK
     var back_buttons = document.getElementsByClassName('leftNavButton')
     for(var i = 0; i < back_buttons.length; i++){
         new Tap(back_buttons[i]).addEventListener('tap', function(e){
-            e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-            e.stopPropagation(); //запрещает всплытие
+            e.preventDefault();
+            e.stopPropagation();
             page.open(this.dataset.back);
             snd_list_page.play();
         }, false);
     }
-    // выбираем из меню советов некоторый, с переходом на другой экран
     new Tap("programmList", "buttonProgramm").addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         if(!e.detail.cTarget.classList.contains("buttonProgramm")){
             return;
         }
-        programms.loadcontent(e.detail.cTarget); //функция, которая передает id выбранного элемента, привязанного к кнопке
-        //запишем ВРЕМЕННО в страничку
+        programms.loadcontent(e.detail.cTarget);
         document.getElementById('programmStart').dataset.numberProgram = e.detail.cTarget.dataset.progr;
-        timerLeo.programm = e.detail.cTarget.dataset.progr; //пересылаем номер программы в timerLeo
+        timerLeo.programm = e.detail.cTarget.dataset.progr;
         snd_list_page.play();
         page.open("fourth");
     })
     new Tap("programmStart").addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         DrawTrainings(document.getElementById('programmStart').dataset.numberProgram);
         for(var i=0; i<8; i++){
             delete timerLeo['progressBar' + i];
@@ -166,24 +158,23 @@ function ready() {
         page.open("fifth");
     })
     new Tap("statisticList", "buttonProgramm").addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         if(!e.detail.cTarget.classList.contains("buttonProgramm")){
             return;
         }
-        showStatisticsInfo.loadEveryDay(e.detail.cTarget.dataset.stat); //функция, которая передает id выбранного элемента, привязанного к кнопке и отрисовывает следующую страницу
+        showStatisticsInfo.loadEveryDay(e.detail.cTarget.dataset.stat);
         snd_list_page.play();
         page.open("sixth");
     })
     new Tap("alertYes"),addEventListener('tap', function(e){
-        e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-        e.stopPropagation(); //запрещает всплытие
+        e.preventDefault();
+        e.stopPropagation();
         document.getElementById('alertActivity').style.display = "none";
         relaxWait = 0;
         clearTimeout(timerLeo.RelaxTimeOut);
 
         convertedTime = (words.Programms[timerLeo.programm].training.training_timer[timerLeo.trainingId]) * 1000; // берем объект из content.js и переводим его в секунды
-        console.log(convertedTime);
         timerLeo.startTimer(convertedTime);
     })
     
@@ -191,8 +182,8 @@ function ready() {
     var asd = document.getElementsByClassName("parentElement");
     for(var i=0; i<asd.length; i++){
         document.getElementById('statisticList').children[i*1].addEventListener("swipe", function(e){
-            e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-            e.stopPropagation(); //запрещает всплытие
+            e.preventDefault();
+            e.stopPropagation();
             if(e.detail.direction == "left"){
                 this.classList.add("swipeLeft");
             } else if(e.detail.direction == "right"){
@@ -200,12 +191,11 @@ function ready() {
             }
             })
         new Tap(document.getElementById('stat-' + i*1).lastElementChild).addEventListener('tap', function (e) {
-            e.preventDefault(); //запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-            e.stopPropagation(); //запрещает всплытие
+            e.preventDefault();
+            e.stopPropagation();
             this.parentElement.style.display = "none";
             var allStats = JSON.parse(localStorage.getItem('allStats'));
             var todayStat = JSON.parse(localStorage.getItem('todayStat'));
-            //
                 for(var j = 0; j<allStats.length; j++){
                     if(j == this.dataset.dely){
                         allStats[j] = [];
@@ -219,16 +209,13 @@ function ready() {
     }     
 };
 
-//функция настроек свитчера
 var switches = {
-    // объект, в котором храним данные по положению настроек, по умолчанию все включено
+
     lStrage: {
         notifSW: "true",
         soundSW: "true"
     },
-    //функция, которую вызываем при запуске приложения
     call:function(el){
-        //если в локсторе запись - ON
         if(this.lStrage[el.id] =='true'){
             this.off(el);
         } else {
@@ -251,7 +238,7 @@ var switches = {
                 var dateNow = new Date();
                 var dateToSave = new Date(dateNow.getFullYear(), dateNow.getMonth(), dateNow.getDate());
                 var date = dateToSave.valueOf();
-                var innerDate = parseInt(date) + 60*60*10*1000; //в 10 часов утра
+                var innerDate = parseInt(date) + 60*60*10*1000; // 10 a.m.
                 for(var i=0; i<5; i++){
                     innerDate += 60*60*24*1000;
                     JSAPI.createUnitNotif(0, parseInt(innerDate), i, words.other[8], 'Title Notification', 'Text Notification', 1000, snd_notif);
@@ -308,13 +295,13 @@ var switches = {
 }
 
 var page = {
-    busy:true, //флаг анимации (если false - идет анимация) ограничение тапов-переходов при выбранном одном из нескольких
-    prevpage: 'first', //предыдущая страница
-    curTap: 'Trainings_0', //активная вкладка
-    open: function(id){ //открытие другой странички
-        if(id == this.prevpage){ //если открывает ту же страничку, то не открывает
+    busy:true,
+    prevpage: 'first',
+    curTap: 'Trainings_0',
+    open: function(id){
+        if(id == this.prevpage){
             return false;
-        } else if(this.busy){ //иначе - если анимация идет (проверка), то ничего не делать
+        } else if(this.busy){
             this.busy = false;
             switch(id){       
                 case 'first':
@@ -323,15 +310,14 @@ var page = {
                     this.curTap = "Trainings_0";
                     showStatisticsInfo.loadLastTime(this);
                 break;
-            } 
-            //проверка на существования предыдущей страницы
+            }
             if(document.getElementById(this.prevpage)){
                 this.animationHandlerCall(id);
             } 
-            this.prevpage = id; //перезапись актуальной страницы (предыдущая)
+            this.prevpage = id;
         }
     },
-    animationHandlerCall:function(id){ //функция управления анимацией перелистывания страниц
+    animationHandlerCall:function(id){
         document.getElementById(id).style.visibility = "visible"; //
         if(document.getElementById(id).dataset.n*1 < document.getElementById(this.prevpage).dataset.n*1){
             document.getElementById(this.prevpage).classList.add('moveRight');
@@ -346,10 +332,10 @@ var page = {
 var programms = {
     loadcontent: function(el){
         document.getElementById('fourth_title').innerHTML = words.Programms[el.dataset.progr*1].title[lang];
-        document.getElementById('programmInfo').firstElementChild.style.background = "url(" + words.Programms[el.dataset.progr*1].img + ") no-repeat"; // картинка
-        document.getElementById('programmInfo').firstElementChild.style.backgroundPosition = "center"; // позиция картинки
-        document.getElementById('programmInfo').firstElementChild.style.backgroundSize = "cover"; // размер картинка
-        document.getElementById('programmInfo').lastElementChild.previousElementSibling.innerHTML =  words.Programms[el.dataset.progr*1].txt[lang]; // загрузка текстового контента
+        document.getElementById('programmInfo').firstElementChild.style.background = "url(" + words.Programms[el.dataset.progr*1].img + ") no-repeat";
+        document.getElementById('programmInfo').firstElementChild.style.backgroundPosition = "center";
+        document.getElementById('programmInfo').firstElementChild.style.backgroundSize = "cover";
+        document.getElementById('programmInfo').lastElementChild.previousElementSibling.innerHTML =  words.Programms[el.dataset.progr*1].txt[lang];
         snd_list_page.play();
         page.open("fourth");
     }
@@ -357,14 +343,14 @@ var programms = {
 
 var swiperObj = {   
     init:function () {
-        this.s = new Swiper('.swiper-container', { //s - определенный свайпер, который мы цепляем к указанному объекту по классу
+        this.s = new Swiper('.swiper-container', {
             pagination: ".swiper-pagination"
             });   
     }
 }
 
 function DrawTrainings(k){
-    swiperObj.s.removeAllSlides(); //очищаем свайпер
+    swiperObj.s.removeAllSlides();
     var ArraySlides = [];
     for (var i = 0; i < 8; i++){
         var A = '<div class="swiper-slide">\
@@ -390,27 +376,26 @@ function DrawTrainings(k){
                 </div>';
         ArraySlides.push(A);
     };
-    swiperObj.s.appendSlide(ArraySlides); //запихиваем в свайпер наши восемь слайдов
+    swiperObj.s.appendSlide(ArraySlides);
     
-    var TrainingTimer = document.querySelectorAll('.TrainingTimer'); //поиск всех элементов по селектору
+    var TrainingTimer = document.querySelectorAll('.TrainingTimer');
     var PauseButtonTimer = document.querySelectorAll('.pauseButton');
     var RefreshButton = document.querySelectorAll('.refresh');
-    for(var i = TrainingTimer.length; --i >= 0;){ //запускаем цикл расставляя тапы по всем восьми объектам
+    for(var i = TrainingTimer.length; --i >= 0;){
         
-        new Tap(TrainingTimer[i]); //выбираем определенный объект
+        new Tap(TrainingTimer[i]);
         TrainingTimer[i].addEventListener('tap', function(e){
-            e.preventDefault();//запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-            e.stopPropagation();//запрещает всплытие
-            this.style.visibility = "hidden"; //меняем стиль данного объекта (скрываем)
+            e.preventDefault();
+            e.stopPropagation();
+            this.style.visibility = "hidden";
 
             for( var j = 0; j<TrainingTimer.length; j++) {
-                TrainingTimer[j].style.pointerEvents = "none"; //всем элементам по классу ставим некликабельность (снимать - none => auto)
+                TrainingTimer[j].style.pointerEvents = "none";
                 RefreshButton[j].style.pointerEvents = "none";
             }
-            // BackBTN[0].style.pointerEvents = "none";
-            // BackBTN[0].style.opacity = "0.5";
-            var pauseId = "pauseButton" + this.dataset.timer; // берем паузу по ID 
-            document.getElementById(pauseId).style.visibility = "visible"; //меняем стиль данного объекта (показываем паузу)
+
+            var pauseId = "pauseButton" + this.dataset.timer;
+            document.getElementById(pauseId).style.visibility = "visible";
 
             trainingId = "numberCountdown" + this.dataset.timer;
             refreshId = "refresh" + this.dataset.timer;
@@ -423,18 +408,18 @@ function DrawTrainings(k){
 
         new Tap(PauseButtonTimer[i]);
         PauseButtonTimer[i].addEventListener('tap', function(e){
-            e.preventDefault();//запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-            e.stopPropagation();//запрещает всплытие
+            e.preventDefault();
+            e.stopPropagation();
             timerLeo.stopTimer(this.dataset.timer);
 
             for( var j = 0; j<TrainingTimer.length; j++) {
-                TrainingTimer[j].style.pointerEvents = "auto"; //всем элементам по классу ставим кликабельность (auto)
+                TrainingTimer[j].style.pointerEvents = "auto";
                 RefreshButton[j].style.pointerEvents = "auto";
             }
 
-            var startId = "TrainingTimer" + this.dataset.timer; // берем паузу по ID 
-            document.getElementById(startId).style.visibility = "visible"; //меняем стиль данного объекта (показываем паузу)
-            this.style.visibility = "hidden"; //меняем стиль данного объекта (скрываем)
+            var startId = "TrainingTimer" + this.dataset.timer;
+            document.getElementById(startId).style.visibility = "visible";
+            this.style.visibility = "hidden";
             trainingId = "numberCountdown" + this.dataset.timer;
             refreshId = "refresh" + this.dataset.timer;
             document.getElementById(refreshId).style.opacity = "1";
@@ -445,8 +430,8 @@ function DrawTrainings(k){
         
         new Tap(RefreshButton[i]);
         RefreshButton[i].addEventListener('tap', function(e){
-            e.preventDefault();//запрещает активность клика сразу на два элемента, находящиеся друг на друге (слои)
-            e.stopPropagation();//запрещает всплытие
+            e.preventDefault();
+            e.stopPropagation();
             if ($confirm (words.other[lang][10])) {
                 var todayStat = JSON.parse(localStorage.getItem('todayStat'));
                 var allStats = JSON.parse(localStorage.getItem('allStats'));
@@ -459,9 +444,6 @@ function DrawTrainings(k){
                 for(var i=0; i<8; i++){
                     delete timerLeo['progressBar' + i];
                 }
-                console.log("ConfirmYes");
-            } else {
-                console.log("ConfirmNo");
             }
         }, false);
     }
@@ -516,12 +498,12 @@ function ConvertDateToShow(el){
     return ShowDate;
 }
 
-//обратный счетчик
+
 function startCountdown(dataTime){
     var id = 'progressBar' + dataTime;
 
-    var duration = (words.Programms[timerLeo.programm].training.training_timer[dataTime]) * 1000; // берем объект из content.js и переводим его в секунды
-    convertedTime = duration; //число с которого таймер начинает отсчет
+    var duration = (words.Programms[timerLeo.programm].training.training_timer[dataTime]) * 1000;
+    convertedTime = duration;
 
     if(!timerLeo[id]){
         timerLeo[id] = new ProgressBar.Circle(document.getElementById(id), {
@@ -543,18 +525,18 @@ function startCountdown(dataTime){
     }
     
         
-    timerLeo.repeats = words.Programms[timerLeo.programm].training.training_count[dataTime]; //передаем нужное количество повторов
+    timerLeo.repeats = words.Programms[timerLeo.programm].training.training_count[dataTime];
     timerLeo.trainingId = dataTime;
     if(JSON.parse(localStorage.getItem('todayStat'))[timerLeo.programm][dataTime].left == null){
-        timerLeo.repeatCounts = 0; //обнуляем счетчик количества совершенных повторов
+        timerLeo.repeatCounts = 0;
     }else{
         timerLeo.repeatCounts = JSON.parse(localStorage.getItem('todayStat'))[timerLeo.programm][dataTime].repeatCounts;
         convertedTime = JSON.parse(localStorage.getItem('todayStat'))[timerLeo.programm][dataTime].left;
 
     }
-    timerLeo.startTimer(convertedTime); //запуск функции таймера
+    timerLeo.startTimer(convertedTime);
 }
-//счетчик на алерте
+
 function waitingTimer(){
     if((relaxWait - 1000) >= 0){
         relaxWait = relaxWait - 1000;
@@ -567,10 +549,10 @@ function waitingTimer(){
 }
 
 var timerLeo = {
-    repeatCounts: 0, //кол-во совершенных повторов
-    repeats: 0, //нужное количество повторов (берем из content.js)
-    programm: 0, //выбор программы которую выбрали на первом экране
-    trainingId: 0, //ID упражнения
+    repeatCounts: 0,
+    repeats: 0,
+    programm: 0,
+    trainingId: 0,
     passedTime:0,
     duration: 0,
     trainingDone: function(trainingId){
@@ -582,15 +564,14 @@ var timerLeo = {
         var TrainingTimer = document.querySelectorAll('.TrainingTimer');
         var RefreshButton = document.querySelectorAll('.refresh');
         for( var j = 0; j<TrainingTimer.length; j++) {
-            TrainingTimer[j].style.pointerEvents = "auto"; //всем элементам по классу ставим кликабельность (снимать - none => auto)
+            TrainingTimer[j].style.pointerEvents = "auto";
             RefreshButton[j].style.pointerEvents = "auto";
             RefreshButton[j].style.opacity = "1";
         }
         swiperObj.s.unlockSwipes();
         var todayStat = JSON.parse(localStorage.getItem('todayStat'));
-        todayStat[timerLeo.programm][timerLeo.trainingId].left = 0; //обнуляет при увеличении сделанных подходов
+        todayStat[timerLeo.programm][timerLeo.trainingId].left = 0;
         localStorage.setItem('todayStat',JSON.stringify(todayStat));
-        //swiperObj.s.unlockSwipes();
 
     },
     startTimer: function(convertedTime){
@@ -600,11 +581,11 @@ var timerLeo = {
         var allTime = (words.Programms[timerLeo.programm].training.training_timer[(trainingId.slice(-1)*1)])*1000;
         document.getElementById(trainingId).innerHTML = msToTime(convertedTime);
 
-        intId = setInterval(function(){ //запуск интервала (функция, интервал "через который она будет повторяться")
+        intId = setInterval(function(){
 
             if(timerLeo.repeatCounts == timerLeo.repeats){
                 var todayStat = JSON.parse(localStorage.getItem('todayStat'));
-                todayStat[timerLeo.programm][timerLeo.trainingId].left = 0; //обнуляет при увеличении сделанных подходов
+                todayStat[timerLeo.programm][timerLeo.trainingId].left = 0;
                 localStorage.setItem('todayStat',JSON.stringify(todayStat));
 
                 timerLeo.trainingDone(trainingId);
@@ -613,16 +594,16 @@ var timerLeo = {
                 snd_sec.play();
 
 
-                convertedTime -= 1000; //отсчитываем в обратку текущее время
+                convertedTime -= 1000;
                 timerLeo.passedTime = allTime - convertedTime;
                 timerLeo.duration += 1000;
-                document.getElementById(trainingId).innerHTML = msToTime(convertedTime); //отрисовывает в браузере счетчик
+                document.getElementById(trainingId).innerHTML = msToTime(convertedTime);
 
                 timerLeo['progressBar' + trainingId.slice(-1)].animate(timerLeo.passedTime / allTime);
             }else if(timerLeo.passedTime = 0 && timerLeo.repeatCounts != timerLeo.repeats){
 
                 var todayStat = JSON.parse(localStorage.getItem('todayStat'));
-                todayStat[timerLeo.programm][timerLeo.trainingId].left = 0; //обнуляет при увеличении сделанных подходов
+                todayStat[timerLeo.programm][timerLeo.trainingId].left = 0;
                 localStorage.setItem('todayStat',JSON.stringify(todayStat));
 
                 timerLeo.repeatCounts ++;
@@ -630,24 +611,19 @@ var timerLeo = {
                 timerLeo.stopTimer(timerLeo.trainingId);
                 timerLeo['progressBar' + trainingId.slice(-1)].animate(0);
 
-                timerLeo.relaxTime(trainingId); //промежуток между подходами
+                timerLeo.relaxTime(trainingId);
             } else{
                 timerLeo.repeatCounts ++;
                 snd_endTimer.play();
                 timerLeo.stopTimer(timerLeo.trainingId);
                 timerLeo['progressBar' + trainingId.slice(-1)].animate(0);
-
-                //var todayStat = JSON.parse(localStorage.getItem('todayStat'));
-                //todayStat[timerLeo.programm][timerLeo.trainingId].left = 0; //обнуляет при увеличении сделанных подходов? попробовать всавить время подхода ???
-                //localStorage.setItem('todayStat',JSON.stringify(todayStat));
-
-                timerLeo.relaxTime(trainingId); //промежуток между подходами
+                timerLeo.relaxTime(trainingId);
             }
         },1000)
         swiperObj.s.lockSwipes();
     },
     relaxTime: function(trainingId){
-        if(timerLeo.repeatCounts < timerLeo.repeats){ //сравниваем количество совершенных повторов с указанным по условию кол-вом повторов
+        if(timerLeo.repeatCounts < timerLeo.repeats){
             relaxWait = 60000;
 
             waitingTimer();
@@ -657,9 +633,8 @@ var timerLeo = {
                 relaxWait = 0;
 
                 convertedTime = (words.Programms[timerLeo.programm].training.training_timer[timerLeo.trainingId]) * 1000; // берем объект из content.js и переводим его в секунды
-                console.log(convertedTime);
-                timerLeo.startTimer(convertedTime);//перезапускаем функцию таймера
-            }, 60000) // промежуток (1 мин)
+                timerLeo.startTimer(convertedTime);
+            }, 60000)
         } else {
             timerLeo.trainingDone(trainingId);
         }
@@ -683,18 +658,16 @@ var statistics = {
         var leftTime = allTime - timerLeo.passedTime;
         todayStat[Nprogr][Ntraining].left = leftTime;
         todayStat[Nprogr][Ntraining].repeatCounts = timerLeo.repeatCounts*1;
-        //ставим таймер на паузу, сохраняем в ЛокСтор (по программе, плюсуем время по дате)
 
         localStorage.setItem('todayStat',JSON.stringify(todayStat));
 
         var trainingDate = new Date().getFullYear() + "/" + (new Date().getMonth()+1) + "/" + new Date().getDate();
         var allStats = JSON.parse(localStorage.getItem('allStats'));
-        if(this.checkLocStorStat(Nprogr, trainingDate)){ // если запись есть
+        if(this.checkLocStorStat(Nprogr, trainingDate)){
             var C = allStats[Nprogr * 1];
             C.forEach(function (item, i, r) {
                 if (trainingDate == item.trainingDate) {
-                    item.duration += timerLeo.duration; // увеличиваем сохр время
-
+                    item.duration += timerLeo.duration;
                 }
             });
 
@@ -708,12 +681,12 @@ var statistics = {
         }
         localStorage.setItem('allStats',JSON.stringify(allStats));
     },
-    checkLocStorStat: function(Nprogr, trainingDate){ // передаем дату, по которой будем искать необходимый объект массива
-        var A = JSON.parse(localStorage.getItem('allStats'))[Nprogr*1]; //сохраняем массив в переменную
-        var b = false; // флаг (нет такой даты)
+    checkLocStorStat: function(Nprogr, trainingDate){
+        var A = JSON.parse(localStorage.getItem('allStats'))[Nprogr*1];
+        var b = false;
         A.forEach(function(item, i, r){
             if(trainingDate == item.trainingDate){
-                b = true; // есть такая дата
+                b = true;
             }
         });
         return b;
@@ -798,7 +771,7 @@ var showStatisticsInfo = {
         var allDates = this.allStats()[n];
         var dayInfo = document.getElementById('DayInfo');
         dayInfo.innerHTML = "";
-        var lastMonth = -1; //потому что январь - нулевой месяц (в сравнении чтоб без 0 = 0)
+        var lastMonth = -1;
         var lastYear = 0;
         
         allDates.forEach(function (item, i, arr) {
@@ -844,8 +817,8 @@ var Segments = {
         }
         showStatisticsInfo.loadLastTime(this);
     }
-}
+};
 
-document.addEventListener('DOMContentLoaded', ready, false); //маяк про окончание загрузки ДОМа
+document.addEventListener('DOMContentLoaded', ready, false);
 
 
